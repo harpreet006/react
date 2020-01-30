@@ -42,3 +42,52 @@ li.nav-item {
 .carousel-item img{
 width:100%
 }
+.img-div img {
+  width: 100%;
+}
+footer.page-footer.font-small.teal.pt-4 {
+  border: 1px solid #eee;
+  background: #eee;
+}
+button.btn.btn-default {
+  background: #eee;
+}
+.container.registersetion {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.error-msg {
+  text-align: center;
+  color: red;
+}
+.img-div {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+button.btn.btn-primary {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 40%;
+}
+button.btn.btn-primary .nav-link {
+  color: #fff;
+}
+.text-div {
+  position: absolute;
+  top: 57%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 600;
+  font-size: 30px;
+}
+.homeSection {
+  padding: 41px;
+}
+.homeSection p {
+  line-height: 34px;
+}
