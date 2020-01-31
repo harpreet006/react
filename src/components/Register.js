@@ -1,16 +1,18 @@
 import React  from 'react';
 import axios from 'axios';
+import Loadershow from '../LoaderComponents'
 import { BrowserRouter as Router, Link } from "react-router-dom";
 class Register extends React.Component{	
   constructor(props){
     super(props);
     this.state={
       fname:"",
-      lname:"",
       email:"",
       usertype:"",     
       password:"",
       message:"",
+      color:"",
+      loader:false,
       users:JSON.parse(localStorage.getItem("usersSet"))||[]
     }
   }
@@ -24,39 +26,38 @@ class Register extends React.Component{
 
   checkformsubmit= (e)=>{
     e.preventDefault()
+    let thisreact=this;
     console.log(this.state.message)  
     if(this.state.fname==""){
-      this.setState({message:"First Name is empty"})
-      return false;
-    }
-    if(this.state.lname==""){
-      this.setState({message:"Last Name is empty"})
+      this.setState({message:"First Name is empty",color:'red'})
       return false;
     }    
     if(this.state.email==""){
-      this.setState({message:"Email is empty"})
+      this.setState({message:"Email is empty",color:'red'})
       return false;
     }
     if(this.state.usertype==""){
-      this.setState({message:"Select user Type"})
+      this.setState({message:"Select user Type",color:'red'})
       return false;
     }
     if(this.state.password==""){
-      this.setState({message:"password is empty"})
+      this.setState({message:"password is empty",color:'red'})
       return false;
     }
+    this.setState({message:""})
+    this.setState({loader:true})
     let  arraydefind=this.state.users
     const id1 = new Date();
-    //arraydefind.push({userId:id1.getTime(), fname:this.state.fname,email:this.state.email,password: this.state.password});
-    let RegisterAry= {'fname':this.state.fname,'lname':this.state.lname,'email': this.state.email,'usertyle':this.state.usertype,'password':this.state.password}
-    console.log('Success fully register',RegisterAry)
-    // axios.post('/register', RegisterAry)
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });    
+    let RegisterAry= {'name':this.state.fname,'email':this.state.email,'type':this.state.usertype,'password':this.state.password}
+    axios.post('http://localhost:4000/register', RegisterAry)
+    .then(function (response) {
+      thisreact.setState({loader:false})
+      thisreact.setState({message:response.data.message,color:'green'});
+    })
+    .catch(function (error) {
+      thisreact.setState({loader:false})
+      thisreact.setState({message:error.response.data.message,color:'green'});
+    });    
     
     console.log(RegisterAry)
     return false;
@@ -66,16 +67,12 @@ class Register extends React.Component{
 	render(){
 		return(
     <div className="container registersetion">
-      <div className="error-msg">{this.state.message}</div>
+      <div className="error-msg" style={{color:this.state.color}}>{this.state.message}</div>
         <form action="">
           <div className="form-group">
             <label for="pwd">First Name:</label>
             <input type="text" className="form-control" name="fname" id="pwd" onChange={this.changefun} />
-          </div>
-          <div className="form-group">
-            <label for="pwd">Last Name:</label>
-            <input type="text" className="form-control" name="lname" id="pwd" onChange={this.changefun} />
-          </div>
+          </div>           
           <div className="form-group">
             <label for="email">Email address:</label>
             <input type="text" className="form-control" name="email" id="email" onChange={this.changefun} />
@@ -84,9 +81,9 @@ class Register extends React.Component{
             <label for="email">User Type:</label>
             <select class="custom-select custom-select-sm" name="usertype" onChange={this.changefun}>
               <option>Select User Type</option>
-              <option value="1">User1</option>
-              <option value="2">User2</option>
-              <option value="3">User3</option>
+              <option value="admin">Admin</option>
+              <option value="service_provider">Service Provider</option>
+              <option value="customer">Customer</option>
             </select>
           </div>
           <div className="form-group">
@@ -95,6 +92,7 @@ class Register extends React.Component{
           </div>
           <button type="submit" className="btn btn-default" onClick={this.checkformsubmit}>Register</button>
         </form>
+        <div><Loadershow status={this.state.loader} /></div>
       </div>
       )
 	}

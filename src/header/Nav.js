@@ -10,9 +10,19 @@ import Slider from '../components/Slider.js';
 import Register from '../components/Register.js';
 import Login from '../components/Login.js';
 import Services from '../components/Services.js';
+import Admin from '../components/Admin.js';
 import Serviceview from '../sevices/Serviceview.js';
+import Listservice from '../components/Listservice';
 class Nav extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+      users:JSON.parse(localStorage.getItem("usersSet"))||[]
+    }
+  }
+  
   render(){
+    console.log(this.props.userId)
     return( <Router><nav className="navbar navbar-expand-lg navbar-light bg-light">
   <a className="navbar-brand" href="#"><img style={{width:80}} src={logo} /></a>
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,13 +39,20 @@ class Nav extends React.Component{
       </li>
        <li className="nav-item"> 
        <Link className="nav-link" to='/user/login'>Login</Link>
-      </li>       
+      </li>            
     </ul>
   </div>
 </nav>
 <Switch>
  <Route exact path="/"><Slider /></Route>
-  <Route   path="/register" component={Register}>           
+  <Route path="/register" component={Register}>           
+  </Route>
+  <Route path="/admin"  render={({ match: { url } }) => (
+      <>
+        <Route path={`${url}/`} component={Admin}  exact />
+        <Route path={`${url}/list`}  component={Listservice}  exact />
+      </>
+    )}>           
   </Route>
   <Route   path="/user/login" component={Login}> 
   </Route>
@@ -43,7 +60,7 @@ class Nav extends React.Component{
   </Route>
   <Route  path="/services/:keys/:categorie" component={Serviceview}>
   </Route>
-  <Route  path="/services/:keys/" component={Services}>
+  <Route  path="/services/:keys/" component={Services}>  
   </Route>
 </Switch>
 </Router>) 

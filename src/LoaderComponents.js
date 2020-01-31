@@ -7,10 +7,9 @@ class LoaderComponents extends React.Component{
     }
 
     render(){
-      console.log(this.props,'loader')
       let loaderComponent=''
       if(this.props.status){
-        loaderComponent= <Loader type="Puff" color="#00BFFF"  height={100}   style={{textAlign: 'center'}} width={100}  />
+        loaderComponent= <Loader type="ThreeDots" color="#00BFFF"  height={100}   style={{textAlign: 'center'}} width={100}  />
       }
       return(loaderComponent)
     }

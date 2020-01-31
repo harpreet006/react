@@ -9,7 +9,7 @@ import Footer from './Footer.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
 
-function App(argument) {
+function App(argument) { 
   return (<div><Nav /><Footer /></div>)
 }
 export default App
