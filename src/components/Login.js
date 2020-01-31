@@ -1,5 +1,5 @@
 import React  from 'react';
-
+import axios from 'axios';
 class Login extends React.Component{ 
   constructor(props){
       super(props)
@@ -13,7 +13,7 @@ class Login extends React.Component{
       this.setState({[e.target.name]:e.target.value})
     }
 
-    checkformsubmit=(e)=>{
+     checkformsubmit= async (e)=>{
       e.preventDefault()
       if(this.state.username==""){
         this.setState({message:"Username is empty"})
@@ -23,15 +23,20 @@ class Login extends React.Component{
         this.setState({message:"Password is empty"})
         return false
       }
-      const loginAy={username:this.state.username,password:this.state.password}
-      console.log('login successfully',loginAy)
-      // axios.post('/login', loginAy)
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });    
+      const loginAy={email:this.state.username,password:this.state.password}
+      // console.log('login successfully',loginAy)      
+      axios.post('http://localhost:4000/login', loginAy)
+      .then(function (response,hj) {
+        console.log(response)
+        // this.setState({LoaderComponents:false})
+        // this.setState({message:response.data.message})
+      }).catch(function (error,kl) {
+        // this.setState({LoaderComponents:false})
+      console.log(error,kl,"ssssss");
+      });
+
+       
+
     }
   render(){ 
     return(<div className="container registersetion">

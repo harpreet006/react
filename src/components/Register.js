@@ -1,6 +1,7 @@
 import React  from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import LoaderComponents from '../LoaderComponents';
 class Register extends React.Component{	
   constructor(props){
     super(props);
@@ -11,6 +12,7 @@ class Register extends React.Component{
       usertype:"",     
       password:"",
       message:"",
+      LoaderComponents:false,
       users:JSON.parse(localStorage.getItem("usersSet"))||[]
     }
   }
@@ -18,13 +20,13 @@ class Register extends React.Component{
   changefun=(e)=>{
     // console.log(e.target.value,"**********")
     this.setState({[e.target.name]: e.target.value},function(){
-      console.log(this.state)
+      // console.log(this.state)
     })
   }
 
   checkformsubmit= (e)=>{
     e.preventDefault()
-    console.log(this.state.message)  
+    // console.log(this.state.message)  
     if(this.state.fname==""){
       this.setState({message:"First Name is empty"})
       return false;
@@ -45,27 +47,24 @@ class Register extends React.Component{
       this.setState({message:"password is empty"})
       return false;
     }
+    // this.setState({LoaderComponents:true})
     let  arraydefind=this.state.users
     const id1 = new Date();
-    //arraydefind.push({userId:id1.getTime(), fname:this.state.fname,email:this.state.email,password: this.state.password});
-    let RegisterAry= {'fname':this.state.fname,'lname':this.state.lname,'email': this.state.email,'usertyle':this.state.usertype,'password':this.state.password}
-    console.log('Success fully register',RegisterAry)
-    // axios.post('/register', RegisterAry)
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });    
-    
-    console.log(RegisterAry)
-    return false;
-
+    let RegisterAry= {'name':this.state.fname,'email':this.state.lname,'password': this.state.email,'type':this.state.usertype}
+    axios.post('http://localhost:4000/register', RegisterAry)
+    .then(function (response,hj) {
+      // this.setState({LoaderComponents:false})
+      // this.setState({message:response.data.message})
+    }).catch(function (error) {
+    // this.setState({LoaderComponents:false})
+    console.log(error,"ssssss");
+    });
   }
 
 	render(){
 		return(
     <div className="container registersetion">
+      <LoaderComponents status={this.state.LoaderComponents} />
       <div className="error-msg">{this.state.message}</div>
         <form action="">
           <div className="form-group">
