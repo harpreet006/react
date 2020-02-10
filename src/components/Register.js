@@ -1,18 +1,18 @@
 import React  from 'react';
 import axios from 'axios';
+import Loadershow from '../LoaderComponents'
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import LoaderComponents from '../LoaderComponents';
-class Register extends React.Component{	
+class Register extends React.Component{ 
   constructor(props){
     super(props);
     this.state={
       fname:"",
-      lname:"",
       email:"",
       usertype:"",     
       password:"",
       message:"",
-      LoaderComponents:false,
+      color:"",
+      loader:false,
       users:JSON.parse(localStorage.getItem("usersSet"))||[]
     }
   }
@@ -20,61 +20,60 @@ class Register extends React.Component{
   changefun=(e)=>{
     // console.log(e.target.value,"**********")
     this.setState({[e.target.name]: e.target.value},function(){
-      // console.log(this.state)
+      console.log(this.state)
     })
   }
 
   checkformsubmit= (e)=>{
     e.preventDefault()
-    // console.log(this.state.message)  
+    let thisreact=this;
+    console.log(this.state.message)  
     if(this.state.fname==""){
-      this.setState({message:"First Name is empty"})
-      return false;
-    }
-    if(this.state.lname==""){
-      this.setState({message:"Last Name is empty"})
+      this.setState({message:"First Name is empty",color:'red'})
       return false;
     }    
     if(this.state.email==""){
-      this.setState({message:"Email is empty"})
+      this.setState({message:"Email is empty",color:'red'})
       return false;
     }
     if(this.state.usertype==""){
-      this.setState({message:"Select user Type"})
+      this.setState({message:"Select user Type",color:'red'})
       return false;
     }
     if(this.state.password==""){
-      this.setState({message:"password is empty"})
+      this.setState({message:"password is empty",color:'red'})
       return false;
     }
-    // this.setState({LoaderComponents:true})
+    this.setState({message:""})
+    this.setState({loader:true})
     let  arraydefind=this.state.users
     const id1 = new Date();
-    let RegisterAry= {'name':this.state.fname,'email':this.state.lname,'password': this.state.email,'type':this.state.usertype}
-    axios.post('http://localhost:4000/register', RegisterAry)
-    .then(function (response,hj) {
-      // this.setState({LoaderComponents:false})
-      // this.setState({message:response.data.message})
-    }).catch(function (error) {
-    // this.setState({LoaderComponents:false})
-    console.log(error,"ssssss");
-    });
+    let RegisterAry= {'name':this.state.fname,'email':this.state.email,'type':this.state.usertype,'password':this.state.password}
+    axios.post('http://localhost:4001/register', RegisterAry)
+    .then(function (response) {
+      console.log("ddddddddd");
+      thisreact.setState({loader:false})
+      thisreact.setState({message:response.data.message,color:'green'});
+    })
+    .catch(function (error) {
+      thisreact.setState({loader:false})
+      thisreact.setState({message:error.response.data.message,color:'green'});
+    });    
+    
+    console.log(RegisterAry)
+    return false;
+
   }
 
-	render(){
-		return(
+  render(){
+    return(
     <div className="container registersetion">
-      <LoaderComponents status={this.state.LoaderComponents} />
-      <div className="error-msg">{this.state.message}</div>
+      <div className="error-msg" style={{color:this.state.color}}>{this.state.message}</div>
         <form action="">
           <div className="form-group">
             <label for="pwd">First Name:</label>
             <input type="text" className="form-control" name="fname" id="pwd" onChange={this.changefun} />
-          </div>
-          <div className="form-group">
-            <label for="pwd">Last Name:</label>
-            <input type="text" className="form-control" name="lname" id="pwd" onChange={this.changefun} />
-          </div>
+          </div>           
           <div className="form-group">
             <label for="email">Email address:</label>
             <input type="text" className="form-control" name="email" id="email" onChange={this.changefun} />
@@ -83,9 +82,8 @@ class Register extends React.Component{
             <label for="email">User Type:</label>
             <select class="custom-select custom-select-sm" name="usertype" onChange={this.changefun}>
               <option>Select User Type</option>
-              <option value="1">User1</option>
-              <option value="2">User2</option>
-              <option value="3">User3</option>
+              <option value="service_provider">Service Provider</option>
+              <option value="customer">Customer</option>
             </select>
           </div>
           <div className="form-group">
@@ -94,8 +92,9 @@ class Register extends React.Component{
           </div>
           <button type="submit" className="btn btn-default" onClick={this.checkformsubmit}>Register</button>
         </form>
+        <div><Loadershow status={this.state.loader} /></div>
       </div>
       )
-	}
+  }
 }
 export  default Register ;

@@ -19,7 +19,7 @@ class Corporate extends React.Component{
       } 
     return(
       <div class="row re45">
-          <div class="col-sm-2"><Innernav  url={url} /></div>
+          <div class="col-sm-2"><Innernav url={url} /></div>
           <div class="col-sm-10 r45Sect"><Tableshow key='wedding' data={this.state.data} /></div>
       </div>
     )

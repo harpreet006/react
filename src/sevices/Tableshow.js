@@ -1,39 +1,79 @@
 import React  from 'react'; 
 import LoaderComponents from '../LoaderComponents';
+import axios from 'axios';
+import swal from 'sweetalert';
+
 class Tableshow extends React.Component{ 
   constructor(props){
       super(props)
-      this.state={
-        data:''
+      this.state={  
+        // data:[],
+        // test:''      
       }
-    }    
+      // alert('dfs')
+    }
+   
+    book=(item,getID)=>{
+      const thisreact=this
+      if(item==1){
+        swal("Already Book");
+        return false
+      }
+
+    swal("Write something here:", {
+      content: "input",
+    }) 
+
+      const logId=JSON.parse(localStorage.getItem("usersSet"))
+      // alert(logId)
+      if(logId){
+      let Service= {'getID':getID,'logid':logId}
+      axios.post('http://localhost:4001/book/add',Service)    
+      .then(function (response) { 
+      })
+      .catch(function (error) {
+        // thisreact.setState({loader:false})
+        // thisreact.setState({message:error.response.data.message,color:'green'});
+      }); 
+    }else{
+        swal("Please Login first"); 
+    }
+    }
+
     looptable(){
-      let dataSection=this.props.data      
+      // this.setState({data:this.props.data}) 
+      let dataSection=this.props.data;
+      // console.log(dataSection,'Hello')      
       return (dataSection.map((e,key)=>            
             <tr>
-            <th scope="row">{key}</th>
-            <td>{e.name}</td>
-            <td>{e.name}</td>
-            <td>{e.name}</td>
+            <td scope="row" key={key}>{key}</td>
+            <td>{e.service_name}</td>
+            <td>{e.city}</td>
+            <td>{e.price}</td>
+            <td><button type="submit" className="btn btn-default" onClick={()=>this.book(e.status,e.id)} >{(e.status)?'Book' : 'booking'}</button></td>
           </tr>        
           ))
     }
   render(){
+      console.log(this.props.data)
       let showResult=''        
       if(this.props.data.length){
+
           showResult=
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th>#</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Handle</th> 
+                <th>Action</th> 
               </tr>
+              </thead>
               <tbody>
                 {this.looptable()}
               </tbody>
-            </thead>  
+              
           </table>
       }else{
         showResult=<LoaderComponents status={true} />

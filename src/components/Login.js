@@ -1,5 +1,6 @@
 import React  from 'react';
 import axios from 'axios';
+import Loadershow from '../LoaderComponents'
 class Login extends React.Component{ 
   constructor(props){
       super(props)
@@ -7,40 +8,50 @@ class Login extends React.Component{
         message:'',
         username:'',
         password:'',
+        color:'',
+        users:JSON.parse(localStorage.getItem("usersSet"))||[],
+        loader:false,
       }
     }
     getonchange=(e)=>{
       this.setState({[e.target.name]:e.target.value})
     }
-
-     checkformsubmit= async (e)=>{
+    checkformsubmit=(e)=>{
       e.preventDefault()
+      let thisreact=this;
       if(this.state.username==""){
-        this.setState({message:"Username is empty"})
+        this.setState({message:"Username is empty",color:'red'})
         return false;
       }
       if(this.state.password==""){
-        this.setState({message:"Password is empty"})
+        this.setState({message:"Password is empty",color:'red'})
         return false
       }
+      this.setState({message:"",loader:true})
       const loginAy={email:this.state.username,password:this.state.password}
-      // console.log('login successfully',loginAy)      
-      axios.post('http://localhost:4000/login', loginAy)
-      .then(function (response,hj) {
-        console.log(response)
-        // this.setState({LoaderComponents:false})
-        // this.setState({message:response.data.message})
-      }).catch(function (error,kl) {
-        // this.setState({LoaderComponents:false})
-      console.log(error,kl,"ssssss");
-      });
+      axios.post('http://localhost:4001/login', loginAy)
+      .then(function (response) { 
+        console.log(response.data.data.type,"fff")
+        thisreact.setState({message:response.data.message,color:'green',loader:false});         
+        // alert(thisreact.state.username)
+        localStorage.setItem("usersSet",JSON.stringify(response.data.data.id))
+        if(thisreact.state.username=="admin@admin.com" &&  response.data.data.type=="admin" ){
+         // alert("dsfsdf")
+          // thisreact.props.history.push('/admin') 
+          document.location.href   ="/admin"      
+        }else{
+          // thisreact.props.history.push('/tracking')
+          document.location.href   ="/tracking"      
 
-       
-
+        }
+      })
+      .catch(function (error) {
+        thisreact.setState({message:error.response.data.message,color:'red',loader:false});
+      });   
     }
   render(){ 
     return(<div className="container registersetion">
-    <div className="error-msg">{this.state.message}</div>
+    <div className="error-msg" style={{color:this.state.color}}>{this.state.message}</div>
       <form action="">
         <div className="form-group">
           <label for="pwd">Username:</label>
@@ -51,6 +62,7 @@ class Login extends React.Component{
           <input type="text" className="form-control" name="password" id="pwd" onChange={this.getonchange} />
         </div>
         <button type="submit" className="btn btn-default" onClick={this.checkformsubmit}>Login</button>
+        <div><Loadershow status={this.state.loader} /></div>
       </form>
     </div>)
   }

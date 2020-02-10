@@ -5,10 +5,11 @@ class Innernav extends React.Component{
   	constructor(props){
     	super(props);
     	this.state={
+    		data:[]
     	}	
 	  } 
+	
 	render(){
-		console.log(this.props.url,'navbar section')
 		var urlnavbar='';
 		if(this.props.url !=undefined){
 			urlnavbar=this.props.url;
@@ -16,10 +17,10 @@ class Innernav extends React.Component{
 		return(
 			<aside class="hidden-xs col-sm-3">
 				<ul>
-					<Link className="nav-link" to={urlnavbar+'chandigarh'}>Chandigarh</Link>
-					<Link className="nav-link" to={urlnavbar+'mohali'}>Mohali</Link>
-					<Link className="nav-link" to={urlnavbar+'panchkula'}>Panchkula</Link>
-					<Link className="nav-link" to={urlnavbar+'delhi'}>Delhi</Link>
+					<Link className="nav-link" onClick={this.props.clickHandler('chandigarh')} >chandigarh</Link>
+					<Link className="nav-link" onClick={this.props.clickHandler('mohali')}>mohali</Link>
+					<Link className="nav-link" onClick={this.props.clickHandler('punchkula')} >punchkula</Link>
+					<Link className="nav-link" onClick={this.props.clickHandler('delhi')}>delhi</Link>
 				</ul>
 			</aside>
 		)

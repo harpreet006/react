@@ -19,21 +19,21 @@ class MiddleComponents extends React.Component{
       <div className="col-sm-4">
       <div className="content-holder">
         <div className="img-div"><img src={grid1} alt="" /></div>
-        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/corporate'>Corporate View</Link></button>
+        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/corporate/chandigarh'>Corporate View</Link></button>
         <div className="text-div">Corporate Catering</div>
       </div>
       </div>
       <div className="col-sm-4">
       <div className="content-holder">
         <div className="img-div"><img src={grid2} alt="" /></div>
-        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/wedding'>Wedding View</Link></button>
+        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/wedding/chandigarh'>Wedding View</Link></button>
         <div className="text-div">Wedding Catering</div>
       </div>
       </div>
       <div className="col-sm-4">
         <div className="content-holder">
         <div className="img-div"><img src={grid3} alt="" /></div>
-        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/social'>Social View</Link></button>
+        <button type="button" class="btn btn-primary"><Link className="nav-link" to='/services/social/chandigarh'>Social View</Link></button>
         <div className="text-div">Social Event Catering</div>
       </div>
       </div>
