@@ -18,6 +18,7 @@ import Listservice from '../components/Listservice';
 import Afterlogin from '../components/Afterlogin';
 import Aboutus from '../components/Aboutus';
 import Contactus from '../components/Contactus';
+import Brequest from '../components/Brequest';
 // import Logout from '../components/Logout';
 class Nav extends React.Component{
   constructor(props){
@@ -90,6 +91,8 @@ class Nav extends React.Component{
   </Route>
 
 <Route  path="/aboutus/" component={Aboutus}>  
+  </Route>
+  <Route  path="/request/" component={Brequest}>  
   </Route>
   <Route  path="/contactus/" component={Contactus}>  
   </Route>

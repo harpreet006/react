@@ -78,8 +78,6 @@ class Admin extends React.Component{
         <div className="form-group">
           <label for="email">Select City:</label>
           <select class="custom-select custom-select-sm" name="usertype" onChange={this.changefun}>
-            <option>Choose Type</option>
-            <option value="chandigarh">Chandigarh</option>
             <option value="mohali">Mohali</option>
             <option value="punchkula">Punchkula</option>
             <option value="delhi">Delhi</option>

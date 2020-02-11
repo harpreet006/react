@@ -63,7 +63,7 @@ class Superadmin extends React.Component{
   render(){ 
     if(this.state.data.length){ 
     return(  <table class="table">
-            <thead>{this.state.message}
+            <thead><Link className="nav-link" to="/request">Book Request</Link>{this.state.message}
               <tr>
                 <th scope="col">S/N</th>
                 <th scope="col">Name</th>

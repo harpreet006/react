@@ -13,6 +13,19 @@ class Serviceview extends React.Component{
         data:[]
       }
     }
+
+    componentDidMount(){
+      const thisreact=this;
+      thisreact.setState({loader:true})
+      const getCt="chandigarh"
+      axios.get('http://localhost:4001/service/'+getCt)
+      .then(function (response) {
+        thisreact.setState({data:response.data.data,loader:false})
+      })
+      .catch(function (error) {
+       thisreact.setState({data:{'status':'false'},loader:false})
+      }); 
+    }
     click(getID) {
       const thisreact=this;
       thisreact.setState({loader:true})
@@ -27,8 +40,7 @@ class Serviceview extends React.Component{
       });
     }
   render(){
-    let renderCom='';
-    // console.log(this.state.data,'Singh')
+    let renderCom='';    
     return(<div class="row re45">
     <div class="col-sm-2"><Innernav clickHandler={()=>this.click.bind(this)} /></div>
   <div class="col-sm-10 r45Sect"><Tableshow key='wedding' data={this.state.data} /></div>

@@ -12,9 +12,11 @@ class Wedding extends React.Component{
     //alert('dsd')
     }
   render(){
+    // alert('sdf');
     let url='';
     if(this.props.url.length){
       url=this.props.url;
+      alert()
     }else{
       url='';
     }      

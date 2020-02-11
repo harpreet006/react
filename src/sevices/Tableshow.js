@@ -13,7 +13,7 @@ class Tableshow extends React.Component{
       // alert('dfs')
     }
    
-    book=(item,getID)=>{
+  book=(item,getID)=>{
       const thisreact=this
       if(item==1){
         swal("Already Book");
@@ -22,18 +22,20 @@ class Tableshow extends React.Component{
 
     swal("Write something here:", {
       content: "input",
-    }) 
-
-      const logId=JSON.parse(localStorage.getItem("usersSet"))
+    })
+    const logId=JSON.parse(localStorage.getItem("usersSet"))
       // alert(logId)
       if(logId){
       let Service= {'getID':getID,'logid':logId}
-      axios.post('http://localhost:4001/book/add',Service)    
-      .then(function (response) { 
+      axios.post('http://localhost:4001/getBooking/add',Service)    
+      .then(function (response) {
+        if(response.data.status==="exist"){
+          swal("Your request is in queue");
+          return false
+        }
       })
       .catch(function (error) {
-        // thisreact.setState({loader:false})
-        // thisreact.setState({message:error.response.data.message,color:'green'});
+        console.log(error,"Error section")
       }); 
     }else{
         swal("Please Login first"); 
